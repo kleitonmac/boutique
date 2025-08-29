@@ -171,8 +171,8 @@ header.videos video {
 .ofertas button {
   padding: 14px 28px;
   font-size: 20px;
-  background-color: #d3ad7f;
-  color: #131313;
+  background-color:transparent;
+  color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 5px;
