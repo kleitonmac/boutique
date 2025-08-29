@@ -1,27 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+
 import "./App.css";
 import Footer from "./_components/Footer";
-import { FaWhatsapp, FaInstagram, FaEnvelope } from "react-icons/fa6";
-import { FaBars, FaTimes } from "react-icons/fa";
+import Header from "./_components/Header";
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null); // Referência do menu
-
-  // Função para fechar menu ao clicar fora
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuRef]);
+ 
 
   return (
     <>
+      <Header />
       {/* ===== MAIN COM VÍDEO DE FUNDO ===== */}
 
       <main className="video-header">
@@ -34,49 +20,10 @@ function App() {
           </div>
         </div>
 
-        <header className="header-transparente">
-          <nav className="menu" ref={menuRef}> 
-    <button
-      className="menu-toggle flex items-center"
-      onClick={() => setMenuOpen(!menuOpen)} 
-    >
-      {/* Ícone */}
-      <span className="text-xl">
-        {menuOpen ? <FaTimes /> : <FaBars />}
-      </span>
-
-      {/* Texto */}
-      <span className="ml-2 text-xl font-bold">
-        {menuOpen ? "Fechar" : "Menu"}
-      </span>
-    </button>
-
-            {/* Links */}
-            <ul className={`menu-links ${menuOpen ? "show" : ""}`}>
-              <li>
-                <a href="#">Início</a>
-              </li>
-              <li>
-                <a href="#">Sobre</a>
-              </li>
-              <li>
-                <a href="#">Contatos</a>
-              </li>
-            </ul>
-          </nav>
-        </header>
-
         <div className="container">
           <h1>Alana Boutique — Seu charme começa aqui.</h1>
-          <p>Não siga tendências. Crie as suas.</p>
-        </div>
-      </main>
-      {/* ===== BANNER ===== */}
-      <section class="banner">
-        <div class="banner-right"></div>
-      </section>
-
-      {/* ===== BOTÃO DE OFERTAS ===== */}
+          <p>Não siga tendências. Crie as suas </p>
+           {/* ===== BOTÃO DE OFERTAS ===== */}
       <div className="ofertas">
         <button
           onClick={() => {
@@ -88,6 +35,14 @@ function App() {
           Clique aqui para conferir nossas ofertas!
         </button>
       </div>
+      
+        </div>
+      </main>
+
+      {/* ===== BANNER ===== */}
+      <section class="banner">
+        <div class="banner-right"></div>
+      </section>
 
       {/* ===== PRODUTOS ===== */}
       <section id="novidades" className="novidades">
@@ -138,27 +93,6 @@ function App() {
           cliente.
         </p>
       </section>
-
-      {/* ===== REDES SOCIAIS ===== */}
-      <div className="social-icons">
-        <a
-          href="https://wa.me/5511961728584"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaWhatsapp size={24} />
-        </a>
-        <a
-          href="https://www.instagram.com/alanareis__/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaInstagram size={24} />
-        </a>
-        <a href="mailto:contato@alanaboutique.com">
-          <FaEnvelope size={24} />
-        </a>
-      </div>
 
       <Footer />
     </>
