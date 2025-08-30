@@ -26,51 +26,45 @@ const Header = ({
 
     return(
         <header className="header-transparente">
-            <nav className="menu" ref={menuRef}> 
-                <button
-                    className="menu-toggle flex items-center"
-                    onClick={() => setMenuOpen(!menuOpen)} 
-                >
-                    {/* Ícone */}
-                    <span className="text-xl">
-                        {menuOpen ? <FaTimes /> : <FaBars />}
-                    </span>
+  {/* Esquerda - Menu */}
+  <div className="header-left">
+    <nav className="menu" ref={menuRef}>
+      <button
+        className="menu-toggle flex items-center"
+        onClick={() => setMenuOpen(!menuOpen)} 
+      >
+        <span className="text-xl">
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </span>
+        <span className="ml-2 text-xl font-bold">
+          {menuOpen ? "Fechar" : "Menu"}
+        </span>
+      </button>
 
-                    {/* Texto */}
-                    <span className="ml-2 text-xl font-bold">
-                        {menuOpen ? "Fechar" : "Menu"}
-                    </span>
-                </button>
+      <ul className={`menu-links ${menuOpen ? "show" : ""}`}>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#produtos">Produtos</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#contato">Contatos</a></li>
+      </ul>
+    </nav>
+  </div>
 
-                {/* Links */}
-                <ul className={`menu-links ${menuOpen ? "show" : ""}`}>
-                    <li>
-                        <a href="#inicio">Início</a>
-                    </li>
-                    <li>
-                        <a href="#produtos">Produtos</a>
-                    </li>
-                    <li>
-                        <a href="#sobre">Sobre</a>
-                    </li>
-                    <li>
-                        <a href="#contato">Contatos</a>
-                    </li>
-                </ul>
-            </nav>
+  {/* Centro - Carrinho */}
+  <div className="header-center">
+    <button className="cart-icon" onClick={onCartClick}>
+      <FaShoppingCart />
+      {cartItemsCount > 0 && (
+        <span className="cart-badge">{cartItemsCount}</span>
+      )}
+    </button>
+  </div>
 
-            {/* Carrinho e Tema */}
-            <div className="header-controls">
-                <ThemeToggle isDarkMode={isDarkMode} onToggle={onThemeToggle} />
-                
-                <button className="cart-icon" onClick={onCartClick}>
-                    <FaShoppingCart />
-                    {cartItemsCount > 0 && (
-                        <span className="cart-badge">{cartItemsCount}</span>
-                    )}
-                </button>
-            </div>
-        </header>
+  {/* Direita - Tema */}
+  <div className="header-right">
+    <ThemeToggle isDarkMode={isDarkMode} onToggle={onThemeToggle} />
+  </div>
+</header>
     )
 }
 
