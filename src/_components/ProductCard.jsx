@@ -1,10 +1,20 @@
 import React from 'react';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
-const ProductCard = ({ product, onAddToCart, onViewDetails }) => {
+const ProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite, isFavorite }) => {
   return (
     <div className="product-card">
       <div className="product-image">
         <img src={product.image} alt={product.name} />
+        <button 
+          className="favorite-toggle"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite(product);
+          }}
+        >
+          {isFavorite ? <FaHeart /> : <FaRegHeart />}
+        </button>
         <div className="product-overlay">
           <button 
             className="btn-quick-view"

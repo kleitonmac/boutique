@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShoppingCart = ({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity }) => {
+const ShoppingCart = ({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity, onCheckout }) => {
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   if (!isOpen) return null;
@@ -25,6 +25,8 @@ const ShoppingCart = ({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuanti
                     <div className="item-details">
                       <h4>{item.name}</h4>
                       <p>R$ {item.price.toFixed(2)}</p>
+                      {item.size && <p>Tamanho: {item.size}</p>}
+                      {item.color && <p>Cor: {item.color}</p>}
                       <div className="quantity-controls">
                         <button 
                           onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
@@ -54,7 +56,7 @@ const ShoppingCart = ({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuanti
                 <div className="cart-total">
                   <strong>Total: R$ {total.toFixed(2)}</strong>
                 </div>
-                <button className="btn-checkout">
+                <button className="btn-checkout" onClick={onCheckout}>
                   Finalizar Compra
                 </button>
               </div>

@@ -8,13 +8,17 @@ import ShoppingCart from "./_components/ShoppingCart";
 import ProductModal from "./_components/ProductModal";
 import SearchAndFilters from "./_components/SearchAndFilters";
 import Notification from "./_components/Notification";
+import Checkout from "./_components/Checkout";
+import Favorites from "./_components/Favorites";
 import { products } from "./data/products";
 
 function App() {
   // Estados principais
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: 'success', isVisible: false });
@@ -35,13 +39,33 @@ function App() {
     }
   }, [isDarkMode]);
 
-  // Filtrar produtos
+  // Carregar favoritos do localStorage
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('favorites');
+    if (savedFavorites) {
+      setFavorites(JSON.parse(savedFavorites));
+    }
+  }, []);
+
+  // Salvar favoritos no localStorage
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  // Filtrar produtos com busca melhorada
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch = 
+      product.name.toLowerCase().includes(searchLower) ||
+      product.category.toLowerCase().includes(searchLower) ||
+      product.description?.toLowerCase().includes(searchLower) ||
+      product.sizes?.some(size => size.toLowerCase().includes(searchLower)) ||
+      product.colors?.some(color => color.toLowerCase().includes(searchLower));
+    
     const matchesCategory = selectedCategory === 'Todos' || product.category === selectedCategory;
     const matchesPrice = product.price <= priceRange;
-    const matchesSize = !selectedSize || product.sizes.includes(selectedSize);
-    const matchesColor = !selectedColor || product.colors.includes(selectedColor);
+    const matchesSize = !selectedSize || (product.sizes && product.sizes.includes(selectedSize));
+    const matchesColor = !selectedColor || (product.colors && product.colors.includes(selectedColor));
     
     return matchesSearch && matchesCategory && matchesPrice && matchesSize && matchesColor;
   });
@@ -80,6 +104,34 @@ function App() {
         item.id === productId ? { ...item, quantity: newQuantity } : item
       ));
     }
+  };
+
+  // Funções de favoritos
+  const toggleFavorite = (product) => {
+    const isFavorite = favorites.some(fav => fav.id === product.id);
+    
+    if (isFavorite) {
+      setFavorites(favorites.filter(fav => fav.id !== product.id));
+      showNotification('Produto removido dos favoritos!', 'info');
+    } else {
+      setFavorites([...favorites, product]);
+      showNotification('Produto adicionado aos favoritos!', 'success');
+    }
+  };
+
+  const isFavorite = (productId) => {
+    return favorites.some(fav => fav.id === productId);
+  };
+
+  // Funções de checkout
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
+
+  const handleCheckoutComplete = () => {
+    setCartItems([]);
+    showNotification('Compra finalizada com sucesso! Email de confirmação enviado.', 'success');
   };
 
   // Funções de notificação
@@ -171,6 +223,8 @@ function App() {
                   product={product}
                   onAddToCart={addToCart}
                   onViewDetails={handleViewProduct}
+                  onToggleFavorite={toggleFavorite}
+                  isFavorite={isFavorite(product.id)}
                 />
               ))
             ) : (
@@ -181,6 +235,19 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* ===== FAVORITOS ===== */}
+      {favorites.length > 0 && (
+        <section id="favoritos" className="favoritos-section">
+          <div className="container-produtos">
+            <Favorites
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              onAddToCart={addToCart}
+            />
+          </div>
+        </section>
+      )}
 
       {/* ===== SOBRE A LOJA ===== */}
       <section id="sobre" className="sobre">
@@ -221,6 +288,7 @@ function App() {
         cartItems={cartItems}
         onRemoveItem={removeFromCart}
         onUpdateQuantity={updateCartQuantity}
+        onCheckout={handleCheckout}
       />
 
       <ProductModal
@@ -228,6 +296,14 @@ function App() {
         isOpen={isProductModalOpen}
         onClose={closeProductModal}
         onAddToCart={addToCart}
+      />
+
+      <Checkout
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        cartItems={cartItems}
+        total={cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)}
+        onCheckoutComplete={handleCheckoutComplete}
       />
 
       <Notification

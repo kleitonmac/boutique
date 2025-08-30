@@ -26,45 +26,51 @@ const Header = ({
 
     return(
         <header className="header-transparente">
-  {/* Esquerda - Menu */}
-  <div className="header-left">
-    <nav className="menu" ref={menuRef}>
-      <button
-        className="menu-toggle flex items-center"
-        onClick={() => setMenuOpen(!menuOpen)} 
-      >
-        <span className="text-xl">
-          {menuOpen ? <FaTimes /> : <FaBars />}
-        </span>
-        <span className="ml-2 text-xl font-bold">
-          {menuOpen ? "Fechar" : "Menu"}
-        </span>
-      </button>
+          {/* Esquerda - Menu */}
+          <div className="header-left">
+            <nav className="menu" ref={menuRef}>
+              <button
+                className="menu-toggle"
+                onClick={() => setMenuOpen(!menuOpen)} 
+              >
+                {menuOpen ? <FaTimes /> : <FaBars />}
+                <span className="menu-text">
+                  {menuOpen ? "Fechar" : "Menu"}
+                </span>
+              </button>
 
-      <ul className={`menu-links ${menuOpen ? "show" : ""}`}>
-        <li><a href="#inicio">Início</a></li>
-        <li><a href="#produtos">Produtos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#contato">Contatos</a></li>
-      </ul>
-    </nav>
-  </div>
+              <ul className={`menu-links ${menuOpen ? "show" : ""}`}>
+                <li><a href="#inicio" onClick={() => setMenuOpen(false)}>Início</a></li>
+                <li><a href="#produtos" onClick={() => setMenuOpen(false)}>Produtos</a></li>
+                <li><a href="#servicos" onClick={() => setMenuOpen(false)}>Serviços</a></li>
+                <li><a href="#contato" onClick={() => setMenuOpen(false)}>Contatos</a></li>
+              </ul>
+            </nav>
+          </div>
 
-  {/* Centro - Carrinho */}
-  <div className="header-center">
-    <button className="cart-icon" onClick={onCartClick}>
-      <FaShoppingCart />
-      {cartItemsCount > 0 && (
-        <span className="cart-badge">{cartItemsCount}</span>
-      )}
-    </button>
-  </div>
+          {/* Centro - Logo/Título */}
+          <div className="header-center">
+            <h1 className="header-title">L B</h1>
+          </div>
 
-  {/* Direita - Tema */}
-  <div className="header-right">
-    <ThemeToggle isDarkMode={isDarkMode} onToggle={onThemeToggle} />
-  </div>
-</header>
+          {/* Direita - Botões de Ação */}
+          <div className="header-right">
+            <div className="header-controls">
+              {/* Botão de tema */}
+              <button className="theme-toggle" onClick={onThemeToggle}>
+                {isDarkMode ? "☀️" : "🌙"}
+              </button>
+
+              {/* Botão do carrinho */}
+              <button className="cart-icon" onClick={onCartClick}>
+                <FaShoppingCart />
+                {cartItemsCount > 0 && (
+                  <span className="cart-badge">{cartItemsCount}</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </header>
     )
 }
 
