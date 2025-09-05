@@ -1,0 +1,225 @@
+/* ====================== GRID DE PRODUTOS ====================== */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  .no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+  }
+  
+  /* ====================== CARD DE PRODUTO ====================== */
+  .product-card {
+    background: var(--bg-light);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+  }
+  
+  .favorite-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #ff4444;
+    transition: var(--transition);
+    z-index: 10;
+  }
+  
+  .favorite-toggle:hover {
+    background: #fff;
+    transform: scale(1.1);
+  }
+  
+  .favorite-toggle.active {
+    color: #ff4444;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .product-image {
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+  }
+  
+  .product-card:hover .product-image img {
+    transform: scale(1.05);
+  }
+  
+  .product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+  }
+  
+  .product-card:hover .product-overlay {
+    opacity: 1;
+  }
+  
+  .btn-quick-view {
+    padding: 12px 24px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+  
+  .btn-quick-view:hover {
+    background: var(--secondary-color);
+    transform: scale(1.05);
+  }
+  
+  .product-info {
+    padding: 20px;
+  }
+  
+  .product-info h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+  
+  .product-category {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .product-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+  }
+  
+  .btn-add-cart {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+  
+  .btn-add-cart:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+  
+  /* ====================== RESPONSIVIDADE ====================== */
+  @media (max-width: 1024px) {
+    .products-grid {
+      gap: 20px;
+    }
+  
+    .product-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+  
+    .product-card {
+      border-radius: 10px;
+    }
+  
+    .product-image {
+      height: 220px;
+    }
+  
+    .product-info {
+      padding: 15px;
+    }
+  
+    .product-info h3 {
+      font-size: 16px;
+    }
+  
+    .product-price {
+      font-size: 18px;
+    }
+  
+    .no-products {
+      padding: 40px 10px;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+  
+    .product-image {
+      height: 200px;
+    }
+  
+    .product-info {
+      padding: 12px;
+    }
+  
+    .product-info h3 {
+      font-size: 15px;
+    }
+  
+    .product-price {
+      font-size: 16px;
+    }
+  }
+  

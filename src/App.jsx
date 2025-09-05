@@ -159,7 +159,11 @@ function App() {
     <div className={`app ${isDarkMode ? 'dark-mode' : ''}`}>
       <Header 
         cartItemsCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+        favoritesCount={favorites.length}
         onCartClick={() => setIsCartOpen(true)}
+        onFavoritesClick={() => {
+          document.getElementById("favoritos")?.scrollIntoView({ behavior: "smooth" });
+        }}
         isDarkMode={isDarkMode}
         onThemeToggle={() => setIsDarkMode(!isDarkMode)}
       />

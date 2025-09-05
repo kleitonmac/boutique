@@ -77,23 +77,27 @@ header.videos video {
   transform: translate(-50%, -50%);
   text-align: center;
   color: #fff;
-  z-index: 5;
+  z-index: 10;
   padding: 0 20px;
 }
 
 .container h1 {
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.7);
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 20px;
 }
 
 .container p {
-  font-size: 20px;
-  margin-top: 10px;
-  font-weight: 400;
+  font-size: 22px;
+  margin-top: 15px;
+  font-weight: 300;
   text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+  font-style: italic;
+  letter-spacing: 1px;
 }
 
 @media (max-width: 1024px) {
@@ -147,12 +151,13 @@ header.videos video {
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 15px 30px;
+  padding: 20px 40px;
   display: grid;
   grid-template-columns: 1fr auto 1fr; /* esquerda | centro | direita */
   align-items: center;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ====================== HEADER & CONTROLES ====================== */
@@ -526,7 +531,7 @@ header.videos video {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("/dir.png");
+  background-image: url("/moda.jpg");
 }
 
 /* ====================== RESPONSIVIDADE ====================== */
@@ -567,15 +572,18 @@ header.videos video {
 }
 
 .ofertas button {
-  padding: 14px 28px;
-  font-size: 20px;
+  padding: 16px 32px;
+  font-size: 18px;
   background-color: transparent;
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
   border: 2px solid #fff;
-  border-radius: 5px;
+  border-radius: 30px;
   cursor: pointer;
   transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Playfair Display', serif;
 }
 
 .ofertas button:hover {
@@ -2166,6 +2174,17 @@ header.videos video {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.video-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%);
+  z-index: 2;
 }
 
 .video-split {

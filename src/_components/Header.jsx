@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
-import ThemeToggle from "./ThemeToggle";
+import { FaBars, FaTimes, FaShoppingCart, FaStar } from "react-icons/fa";
+import "./Header.css";
 
 const Header = ({ 
-  cartItemsCount, 
+  cartItemsCount,
+  favoritesCount, // Nova prop para contar favoritos
   onCartClick, 
+  onFavoritesClick, // Nova prop para clique em favoritos
   isDarkMode, 
   onThemeToggle 
 }) => {
@@ -42,15 +44,16 @@ const Header = ({
               <ul className={`menu-links ${menuOpen ? "show" : ""}`}>
                 <li><a href="#inicio" onClick={() => setMenuOpen(false)}>Início</a></li>
                 <li><a href="#produtos" onClick={() => setMenuOpen(false)}>Produtos</a></li>
-                <li><a href="#servicos" onClick={() => setMenuOpen(false)}>Serviços</a></li>
-                <li><a href="#contato" onClick={() => setMenuOpen(false)}>Contatos</a></li>
+                <li><a href="#favoritos" onClick={() => setMenuOpen(false)}>Favoritos</a></li>
+                <li><a href="#sobre" onClick={() => setMenuOpen(false)}>Sobre</a></li>
+                <li><a href="#contato" onClick={() => setMenuOpen(false)}>Contato</a></li>
               </ul>
             </nav>
           </div>
 
           {/* Centro - Logo/Título */}
           <div className="header-center">
-            <h1 className="header-title">L B</h1>
+            <h1 className="header-title">Alana Boutique</h1>
           </div>
 
           {/* Direita - Botões de Ação */}
@@ -66,6 +69,13 @@ const Header = ({
                 <FaShoppingCart />
                 {cartItemsCount > 0 && (
                   <span className="cart-badge">{cartItemsCount}</span>
+                )}
+              </button>
+              {/* Botão de favoritos */}
+              <button className="favorites-icon" onClick={onFavoritesClick}>
+                <FaStar />
+                {favoritesCount > 0 && (
+                  <span className="favorites-badge">{favoritesCount}</span>
                 )}
               </button>
             </div>

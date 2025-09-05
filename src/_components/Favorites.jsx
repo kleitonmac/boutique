@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import './Favorites.css';
 
 const Favorites = ({ favorites, onToggleFavorite, onAddToCart }) => {
   if (favorites.length === 0) {
@@ -44,4 +45,5 @@ const Favorites = ({ favorites, onToggleFavorite, onAddToCart }) => {
 };
 
 export default Favorites;
+
 

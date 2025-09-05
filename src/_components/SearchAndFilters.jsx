@@ -1,4 +1,5 @@
 import React from 'react';
+import './SearchAndFilters.css';
 
 const SearchAndFilters = ({ 
   searchTerm, 

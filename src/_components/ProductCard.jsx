@@ -1,5 +1,7 @@
 import React from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import './ProductCard.css';
+
 
 const ProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite, isFavorite }) => {
   return (

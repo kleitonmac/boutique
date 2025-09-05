@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaCreditCard, FaPaypal, FaLock } from 'react-icons/fa';
+import './Checkout.css';
 
 const Checkout = ({ isOpen, onClose, cartItems, total, onCheckoutComplete }) => {
   const [formData, setFormData] = useState({

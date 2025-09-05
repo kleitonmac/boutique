@@ -1,4 +1,5 @@
 import React from 'react';
+import './ShoppingCart.css';
 
 const ShoppingCart = ({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity, onCheckout }) => {
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);

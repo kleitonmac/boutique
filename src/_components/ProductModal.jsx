@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './ProductModal.css';
 
 const ProductModal = ({ product, isOpen, onClose, onAddToCart }) => {
   const [selectedSize, setSelectedSize] = useState('');
