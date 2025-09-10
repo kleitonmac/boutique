@@ -1,20 +1,149 @@
-//  kdevprofissional
-//  1XaaNu6FQAfiyhOW
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String   @unique
-  name    String?
-  phone   String?  @unique
-  createAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  cart       Cart[]
+  favorites  Favorite[]
+  orders     Order[]
+
+  @@map("users")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relacionamentos
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  image       String
+  categoryId  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  category   Category    @relation(fields: [categoryId], references: [id])
+  sizes      ProductSize[]
+  colors     ProductColor[]
+  cart       Cart[]
+  favorites  Favorite[]
+  orderItems OrderItem[]
+
+  @@map("products")
+}
+
+model ProductSize {
+  id        Int      @id @default(autoincrement())
+  name      String
+  productId Int
+  createdAt DateTime @default(now())
+
+  // Relacionamentos
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_sizes")
+}
+
+model ProductColor {
+  id        Int      @id @default(autoincrement())
+  name      String
+  productId Int
+  createdAt DateTime @default(now())
+
+  // Relacionamentos
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_colors")
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  quantity  Int      @default(1)
+  size      String?
+  color     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("cart")
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  createdAt DateTime @default(now())
+
+  // Relacionamentos
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("favorites")
+}
+
+model Order {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  total          Float
+  shippingAddress String
+  paymentMethod  String
+  status         String   @default("PENDING") // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relacionamentos
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+  size      String?
+  color     String?
+  createdAt DateTime @default(now())
+
+  // Relacionamentos
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
 }
