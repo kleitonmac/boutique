@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes, FaShoppingCart, FaStar } from "react-icons/fa";
+import { FaBars, FaTimes, FaShoppingCart, FaStar, FaUser } from "react-icons/fa";
 import "./Header.css";
 
 const Header = ({ 
@@ -48,7 +48,7 @@ const Header = ({
 
           <div className="header-right">
             <div className="header-controls">
-              <button className="theme-toggle" onClick={onThemeToggle}>
+              <button className="theme-toggle desktop-only" onClick={onThemeToggle}>
                 {isDarkMode ? "☀️" : "🌙"}
               </button>
               <button className="cart-icon" onClick={onCartClick}>
@@ -57,11 +57,16 @@ const Header = ({
                   <span className="cart-badge">{cartItemsCount}</span>
                 )}
               </button>
-              <button className="favorites-icon" onClick={onFavoritesClick}>
+              {/* Esconder favoritos no mobile via CSS */}
+              <button className="favorites-icon desktop-only" onClick={onFavoritesClick}>
                 <FaStar />
                 {favoritesCount > 0 && (
                   <span className="favorites-badge">{favoritesCount}</span>
                 )}
+              </button>
+              {/* Ícone de cadastro/login */}
+              <button className="login-icon" onClick={() => window.location.href = '/login'}>
+                <FaUser />
               </button>
             </div>
           </div>
@@ -78,10 +83,17 @@ const Header = ({
                 <ul className="menu-links-professional">
                   <li><a href="#inicio" onClick={() => setMenuOpen(false)}>Início</a></li>
                   <li><a href="#produtos" onClick={() => setMenuOpen(false)}>Produtos</a></li>
-                  <li><a href="#favoritos" onClick={() => setMenuOpen(false)}>Favoritos</a></li>
+                  <li><a href="#favoritos" onClick={() => { setMenuOpen(false); onFavoritesClick(); }}>Favoritos</a></li>
                   <li><a href="#sobre" onClick={() => setMenuOpen(false)}>Sobre</a></li>
                   <li><a href="#contato" onClick={() => setMenuOpen(false)}>Contato</a></li>
+                  <li><a href="/login" onClick={() => setMenuOpen(false)}><FaUser style={{marginRight:8}}/>Login/Cadastro</a></li>
                 </ul>
+                {/* Botão de tema na parte inferior do menu */}
+                <div className="menu-bottom">
+                  <button className="theme-toggle" onClick={onThemeToggle}>
+                    {isDarkMode ? "☀️" : "🌙"}
+                  </button>
+                </div>
               </nav>
             </div>
           )}

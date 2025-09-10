@@ -1,3 +1,22 @@
+.desktop-only {
+  display: inline-flex;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+.menu-bottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: absolute;
+  left: 0;
+  bottom: 32px;
+  padding: 0 0 16px 0;
+}
 /* ====================== OVERLAY FULL MENU ====================== */
 .menu-overlay-full {
   position: fixed;
@@ -149,9 +168,19 @@
     margin: 0; /* remove margens extras */
   }
   
-  .theme-toggle,
-  .favorites-icon,
-  .cart-icon {
+   .theme-toggle,
+   .favorites-icon,
+   .cart-icon,
+   .login-icon {
+.theme-toggle.desktop-only {
+  display: inline-flex;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle.desktop-only {
+    display: none !important;
+  }
+}
     background: transparent;
     border: 1px;
     border-radius: 50%;
@@ -192,7 +221,9 @@
   }
   
   /* ====================== ÍCONE DO CARRINHO ====================== */
-  .cart-icon, .favorites-icon {
+  .cart-icon,
+  .favorites-icon,
+  .login-icon {
     position: relative;
     background: none;
     border: none;
@@ -331,7 +362,7 @@
   .header-title {
     font-size: 22px;
   }
-  .theme-toggle, .cart-icon, .favorites-icon {
+  .theme-toggle, .cart-icon, .favorites-icon, .login-icon {
     font-size: 20px;
     padding: 6px;
   }
@@ -361,7 +392,7 @@
   .header-controls {
     gap: 8px;
   }
-  .theme-toggle, .cart-icon, .favorites-icon {
+  .theme-toggle, .cart-icon, .favorites-icon, .login-icon {
     font-size: 16px;
     padding: 5px;
   }
@@ -378,4 +409,3 @@
     justify-content: center;
   }
 }
-  
