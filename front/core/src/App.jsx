@@ -270,7 +270,7 @@ function App() {
         <div className="contato-info">
           <div className="contato-item">
             <h3>📞 Telefone</h3>
-            <p>(11) 99999-9999</p>
+            <p>(11) 96172-8584</p>
           </div>
           <div className="contato-item">
             <h3>📧 Email</h3>
