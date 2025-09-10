@@ -28,50 +28,35 @@ const Header = ({
 
     return(
         <header className="header-transparente">
-          {/* Esquerda - Menu */}
+          {/* Menu fixo na esquerda */}
           <div className="header-left">
-            <nav className="menu" ref={menuRef}>
-              <button
-                className="menu-toggle"
-                onClick={() => setMenuOpen(!menuOpen)} 
-              >
-                {menuOpen ? <FaTimes /> : <FaBars />}
-                <span className="menu-text">
-                  {menuOpen ? "Fechar" : "Menu"}
-                </span>
-              </button>
-
-              <ul className={`menu-links ${menuOpen ? "show" : ""}`}>
-                <li><a href="#inicio" onClick={() => setMenuOpen(false)}>Início</a></li>
-                <li><a href="#produtos" onClick={() => setMenuOpen(false)}>Produtos</a></li>
-                <li><a href="#favoritos" onClick={() => setMenuOpen(false)}>Favoritos</a></li>
-                <li><a href="#sobre" onClick={() => setMenuOpen(false)}>Sobre</a></li>
-                <li><a href="#contato" onClick={() => setMenuOpen(false)}>Contato</a></li>
-              </ul>
-            </nav>
+            <button
+              className="menu-toggle"
+              onClick={() => setMenuOpen(!menuOpen)} 
+            >
+              {menuOpen ? <FaTimes /> : <FaBars />}
+              <span className="menu-text">
+                {menuOpen ? "Fechar" : "Menu"}
+              </span>
+            </button>
           </div>
 
-          {/* Centro - Logo/Título */}
+          {/* Nome centralizado */}
           <div className="header-center">
             <h1 className="header-title">Alana Boutique</h1>
           </div>
 
-          {/* Direita - Botões de Ação */}
           <div className="header-right">
             <div className="header-controls">
-              {/* Botão de tema */}
               <button className="theme-toggle" onClick={onThemeToggle}>
                 {isDarkMode ? "☀️" : "🌙"}
               </button>
-
-              {/* Botão do carrinho */}
               <button className="cart-icon" onClick={onCartClick}>
                 <FaShoppingCart />
                 {cartItemsCount > 0 && (
                   <span className="cart-badge">{cartItemsCount}</span>
                 )}
               </button>
-              {/* Botão de favoritos */}
               <button className="favorites-icon" onClick={onFavoritesClick}>
                 <FaStar />
                 {favoritesCount > 0 && (
@@ -80,6 +65,26 @@ const Header = ({
               </button>
             </div>
           </div>
+
+          {menuOpen && (
+            <div className="menu-overlay-full">
+              <nav className="menu-professional" ref={menuRef}>
+                <button
+                  className="menu-toggle close-menu"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <FaTimes /> <span className="menu-text">Fechar</span>
+                </button>
+                <ul className="menu-links-professional">
+                  <li><a href="#inicio" onClick={() => setMenuOpen(false)}>Início</a></li>
+                  <li><a href="#produtos" onClick={() => setMenuOpen(false)}>Produtos</a></li>
+                  <li><a href="#favoritos" onClick={() => setMenuOpen(false)}>Favoritos</a></li>
+                  <li><a href="#sobre" onClick={() => setMenuOpen(false)}>Sobre</a></li>
+                  <li><a href="#contato" onClick={() => setMenuOpen(false)}>Contato</a></li>
+                </ul>
+              </nav>
+            </div>
+          )}
         </header>
     )
 }
