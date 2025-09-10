@@ -1,0 +1,42 @@
+/* ====================== BOTÃO DE TEMA ====================== */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+  
+  /* ====================== RESPONSIVIDADE ====================== */
+  @media (max-width: 1024px) {
+    .theme-toggle {
+      font-size: 22px;
+      padding: 6px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .theme-toggle {
+      font-size: 18px;
+      padding: 6px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .theme-toggle {
+      font-size: 16px;
+      padding: 6px;
+    }
+  }
+  
