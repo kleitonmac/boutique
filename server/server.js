@@ -1,5 +1,27 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import express from 'express';
+import cors from 'cors';
+import nodemailer from 'nodemailer';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { PrismaClient } from '@prisma/client';
+
+const app = express();
+const prisma = new PrismaClient();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Configuração do email
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER || 'seu-email@gmail.com',
+    pass: process.env.EMAIL_PASS || 'sua-senha-app'
+  }
+});
+
 // ====================== ROTAS DE AUTENTICAÇÃO ======================
 
 // Cadastro de usuário
@@ -14,12 +36,12 @@ app.post('/api/auth/register', async (req, res) => {
       return res.status(409).json({ error: 'Email já cadastrado' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: { name, email, password: hashedPassword }
     });
     res.status(201).json({ message: 'Usuário cadastrado com sucesso' });
   } catch (error) {
-    console.error('Erro no cadastro:', error.message);
+    console.error('Erro no cadastro:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
@@ -43,29 +65,8 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET || 'segredo', { expiresIn: '2h' });
     res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
   } catch (error) {
-    console.error('Erro no login:', error.message);
+    console.error('Erro no login:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
-  }
-});
-const express = require('express');
-const cors = require('cors');
-const nodemailer = require('nodemailer');
-const { PrismaClient } = require('@prisma/client');
-
-const app = express();
-const prisma = new PrismaClient();
-const PORT = process.env.PORT || 3001;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Configuração do email
-const transporter = nodemailer.createTransporter({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER || 'seu-email@gmail.com',
-    pass: process.env.EMAIL_PASS || 'sua-senha-app'
   }
 });
 
