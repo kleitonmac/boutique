@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -8,6 +10,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
+  const { login, register } = useAuth();
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,26 +22,30 @@ const Login = () => {
     setLoading(true);
     setError('');
     setSuccess('');
+    
     try {
-      const url = isRegister ? '/api/auth/register' : '/api/auth/login';
-      const body = isRegister ? form : { email: form.email, password: form.password };
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Erro desconhecido');
       if (isRegister) {
-        setSuccess('Cadastro realizado com sucesso! Faça login.');
-        setIsRegister(false);
+        const result = await register(form.name, form.email, form.password);
+        if (result.success) {
+          setSuccess('Cadastro realizado com sucesso! Faça login.');
+          setIsRegister(false);
+          setForm({ name: '', email: '', password: '' });
+        } else {
+          setError(result.error);
+        }
       } else {
-        setSuccess('Login realizado!');
-        localStorage.setItem('token', data.token);
-        // Redirecionar ou atualizar estado global do usuário
+        const result = await login(form.email, form.password);
+        if (result.success) {
+          setSuccess('Login realizado com sucesso!');
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
+        } else {
+          setError(result.error);
+        }
       }
     } catch (err) {
-      setError(err.message);
+      setError('Erro inesperado. Tente novamente.');
     } finally {
       setLoading(false);
     }

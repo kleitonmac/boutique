@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes, FaShoppingCart, FaStar, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaShoppingCart, FaStar, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
 import "./Header.css";
 
 const Header = ({ 
@@ -12,6 +13,7 @@ const Header = ({
 }) => {
     const menuRef = useRef(null);
     const [menuOpen, setMenuOpen] = useState(false);
+    const { user, logout, isAuthenticated } = useAuth();
 
     // Função para fechar menu ao clicar fora
     useEffect(() => {
@@ -64,10 +66,19 @@ const Header = ({
                   <span className="favorites-badge">{favoritesCount}</span>
                 )}
               </button>
-              {/* Ícone de cadastro/login */}
-              <button className="login-icon" onClick={() => window.location.href = '/login'}>
-                <FaUser />
-              </button>
+              {/* Ícone de usuário/logout */}
+              {isAuthenticated ? (
+                <div className="user-menu">
+                  <span className="user-name">Olá, {user.name}</span>
+                  <button className="logout-btn" onClick={logout} title="Sair">
+                    <FaSignOutAlt />
+                  </button>
+                </div>
+              ) : (
+                <button className="login-icon" onClick={() => window.location.href = '/login'}>
+                  <FaUser />
+                </button>
+              )}
             </div>
           </div>
 
@@ -86,7 +97,15 @@ const Header = ({
                   <li><a href="#favoritos" onClick={() => { setMenuOpen(false); onFavoritesClick(); }}>Favoritos</a></li>
                   <li><a href="#sobre" onClick={() => setMenuOpen(false)}>Sobre</a></li>
                   <li><a href="#contato" onClick={() => setMenuOpen(false)}>Contato</a></li>
-                  <li><a href="/login" onClick={() => setMenuOpen(false)}><FaUser style={{marginRight:8}}/>Login/Cadastro</a></li>
+                  {isAuthenticated ? (
+                    <li>
+                      <a href="#" onClick={(e) => { e.preventDefault(); setMenuOpen(false); logout(); }}>
+                        <FaSignOutAlt style={{marginRight:8}}/>Sair
+                      </a>
+                    </li>
+                  ) : (
+                    <li><a href="/login" onClick={() => setMenuOpen(false)}><FaUser style={{marginRight:8}}/>Login/Cadastro</a></li>
+                  )}
                 </ul>
                 {/* Botão de tema na parte inferior do menu */}
                 <div className="menu-bottom">

@@ -94,7 +94,7 @@ app.get('/api/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const product = await prisma.product.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: id },
       include: {
         sizes: true,
         colors: true,
@@ -168,7 +168,7 @@ app.get('/api/cart/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
     const cart = await prisma.cart.findMany({
-      where: { userId: parseInt(userId) },
+      where: { userId: userId },
       include: {
         product: {
           include: {
@@ -192,8 +192,8 @@ app.post('/api/cart', async (req, res) => {
     
     const existingItem = await prisma.cart.findFirst({
       where: {
-        userId: parseInt(userId),
-        productId: parseInt(productId),
+        userId: // Removido parseInt para MongoDB(userId),
+        productId: // Removido parseInt para MongoDB(productId),
         size,
         color
       }
@@ -208,8 +208,8 @@ app.post('/api/cart', async (req, res) => {
     } else {
       const newItem = await prisma.cart.create({
         data: {
-          userId: parseInt(userId),
-          productId: parseInt(productId),
+          userId: // Removido parseInt para MongoDB(userId),
+          productId: // Removido parseInt para MongoDB(productId),
           quantity,
           size,
           color
@@ -230,11 +230,11 @@ app.put('/api/cart/:id', async (req, res) => {
     const { quantity } = req.body;
     
     if (quantity <= 0) {
-      await prisma.cart.delete({ where: { id: parseInt(id) } });
+      await prisma.cart.delete({ where: { id: // Removido parseInt para MongoDB(id) } });
       res.json({ message: 'Item removido do carrinho' });
     } else {
       const updatedItem = await prisma.cart.update({
-        where: { id: parseInt(id) },
+        where: { id: // Removido parseInt para MongoDB(id) },
         data: { quantity }
       });
       res.json(updatedItem);
@@ -249,7 +249,7 @@ app.put('/api/cart/:id', async (req, res) => {
 app.delete('/api/cart/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.cart.delete({ where: { id: parseInt(id) } });
+    await prisma.cart.delete({ where: { id: // Removido parseInt para MongoDB(id) } });
     res.json({ message: 'Item removido do carrinho' });
   } catch (error) {
     console.error('Erro ao remover do carrinho:', error);
@@ -261,7 +261,7 @@ app.delete('/api/cart/:id', async (req, res) => {
 app.delete('/api/cart/user/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-    await prisma.cart.deleteMany({ where: { userId: parseInt(userId) } });
+    await prisma.cart.deleteMany({ where: { userId: // Removido parseInt para MongoDB(userId) } });
     res.json({ message: 'Carrinho limpo' });
   } catch (error) {
     console.error('Erro ao limpar carrinho:', error);
@@ -276,7 +276,7 @@ app.get('/api/favorites/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
     const favorites = await prisma.favorite.findMany({
-      where: { userId: parseInt(userId) },
+      where: { userId: // Removido parseInt para MongoDB(userId) },
       include: {
         product: {
           include: {
@@ -300,8 +300,8 @@ app.post('/api/favorites', async (req, res) => {
     
     const existingFavorite = await prisma.favorite.findFirst({
       where: {
-        userId: parseInt(userId),
-        productId: parseInt(productId)
+        userId: // Removido parseInt para MongoDB(userId),
+        productId: // Removido parseInt para MongoDB(productId)
       }
     });
 
@@ -311,8 +311,8 @@ app.post('/api/favorites', async (req, res) => {
     } else {
       const newFavorite = await prisma.favorite.create({
         data: {
-          userId: parseInt(userId),
-          productId: parseInt(productId)
+          userId: // Removido parseInt para MongoDB(userId),
+          productId: // Removido parseInt para MongoDB(productId)
         }
       });
       res.json(newFavorite);
@@ -332,7 +332,7 @@ app.post('/api/orders', async (req, res) => {
     
     const order = await prisma.order.create({
       data: {
-        userId: parseInt(userId),
+        userId: // Removido parseInt para MongoDB(userId),
         total,
         shippingAddress,
         paymentMethod,
@@ -357,7 +357,7 @@ app.post('/api/orders', async (req, res) => {
     });
 
     // Limpar carrinho após criar pedido
-    await prisma.cart.deleteMany({ where: { userId: parseInt(userId) } });
+    await prisma.cart.deleteMany({ where: { userId: // Removido parseInt para MongoDB(userId) } });
 
     res.json(order);
   } catch (error) {
@@ -371,7 +371,7 @@ app.get('/api/orders/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
     const orders = await prisma.order.findMany({
-      where: { userId: parseInt(userId) },
+      where: { userId: // Removido parseInt para MongoDB(userId) },
       include: {
         items: {
           include: {

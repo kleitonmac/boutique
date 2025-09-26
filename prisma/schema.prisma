@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String   @unique
   password  String
@@ -28,7 +28,7 @@ model User {
 }
 
 model Category {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -40,14 +40,14 @@ model Category {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String?
   price       Float
   image       String
-  categoryId  Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  categoryId  String    @db.ObjectId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   // Relacionamentos
   category   Category    @relation(fields: [categoryId], references: [id])
@@ -61,9 +61,9 @@ model Product {
 }
 
 model ProductSize {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  productId Int
+  productId String   @db.ObjectId
   createdAt DateTime @default(now())
 
   // Relacionamentos
@@ -73,9 +73,9 @@ model ProductSize {
 }
 
 model ProductColor {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  productId Int
+  productId String   @db.ObjectId
   createdAt DateTime @default(now())
 
   // Relacionamentos
@@ -85,9 +85,9 @@ model ProductColor {
 }
 
 model Cart {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  productId Int
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  productId String   @db.ObjectId
   quantity  Int      @default(1)
   size      String?
   color     String?
@@ -102,9 +102,9 @@ model Cart {
 }
 
 model Favorite {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  productId Int
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  productId String   @db.ObjectId
   createdAt DateTime @default(now())
 
   // Relacionamentos
@@ -116,8 +116,8 @@ model Favorite {
 }
 
 model Order {
-  id             Int      @id @default(autoincrement())
-  userId         Int
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   @db.ObjectId
   total          Float
   shippingAddress String
   paymentMethod  String
@@ -133,9 +133,9 @@ model Order {
 }
 
 model OrderItem {
-  id        Int      @id @default(autoincrement())
-  orderId   Int
-  productId Int
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String   @db.ObjectId
+  productId String   @db.ObjectId
   quantity  Int
   price     Float
   size      String?
